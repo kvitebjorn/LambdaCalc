@@ -4,27 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/build_button_send"
-        android:onClick="buildExpression" />
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_button_send"
+            android:onClick="buildName" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/function_button_send"
+            android:onClick="buildFunction" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/application_button_send"
+            android:onClick="buildApplication" />
+
+    </LinearLayout>
 
     <ListView
+        android:id="@+id/expressions_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_height="0px"
+        android:layout_weight="5"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="32dp"
-        android:layout_weight="1">
+        android:layout_height="0px"
+        android:layout_weight="5"
+        android:paddingTop="32dp">
         <TextView
             android:id="@+id/computation_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/computation_empty"
+            android:hint="@string/evaluation_empty"
             android:inputType="none" />
-    </ScrollView>
+        </ScrollView>
 </LinearLayout>

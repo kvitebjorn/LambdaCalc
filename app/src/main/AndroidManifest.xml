@@ -16,30 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".BuildNameActivity"
-            android:label="@string/title_activity_build_name"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mycompany.lambdacalc.MainActivity" />
-        </activity>
-        <activity
-            android:name=".BuildFunctionActivity"
-            android:label="@string/title_activity_build_function"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mycompany.lambdacalc.MainActivity" />
-        </activity>
-        <activity
-            android:name=".BuildApplicationActivity"
-            android:label="@string/title_activity_build_application"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mycompany.lambdacalc.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

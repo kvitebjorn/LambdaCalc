@@ -1,22 +1,43 @@
 package com.mycompany.lambdacalc;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.support.v4.app.DialogFragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements ChooseExpDialogFragment.ChooseExpDialogListener
+public class MainActivity extends ActionBarActivity
 {
+    private ArrayAdapter<Expression> expAdapter;
+    private ArrayList<Expression> expressions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        expressions = new ArrayList<>();
+        Name x = new Name("x");
+        Function X = new Function(x,x);
+
+        //provide an initial name x and its identity function
+        expressions.add(x);
+        expressions.add(X);
+
+        //array adapter for the list of expressions
+        expAdapter = new ArrayAdapter<Expression>(this,
+               android.R.layout.simple_list_item_1 , expressions);
+        ListView listView = (ListView) findViewById(R.id.expressions_list);
+        listView.setAdapter(expAdapter);
     }
 
 
@@ -42,37 +63,40 @@ public class MainActivity extends ActionBarActivity implements ChooseExpDialogFr
         return super.onOptionsItemSelected(item);
     }
 
-    public void buildExpression(View view)
+    public void buildName(View view)
     {
-        ChooseExpDialogFragment expChooser = new ChooseExpDialogFragment();
-        showChooseExpDialog();
+        final LayoutInflater inflater = getLayoutInflater();
+        final View v = inflater.inflate(R.layout.build_name_dialog, null);
+        new AlertDialog.Builder(this)
+                .setView(v)
+                .setTitle("Enter a string:")
+                .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        EditText input = (EditText) v.findViewById(R.id.create_name);
+                        String name = input.getText().toString();
+                        Name newName = new Name(name);
+                        expAdapter.add(newName);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        // User cancelled the dialog
+                        dialog.cancel();
+                    }
+                })
+        .show();
     }
 
-    public void showChooseExpDialog()
+    public void buildFunction(View view)
     {
-        // Create an instance of the dialog fragment and show it
-        DialogFragment dialog = new ChooseExpDialogFragment();
-        dialog.show(getSupportFragmentManager(), "ChooseExpDialogFragment");
+
     }
 
-    @Override
-    public void onDialogNameClick(DialogFragment dialog)
+    public void buildApplication(View view)
     {
-        Intent intent = new Intent(this, BuildNameActivity.class);
-        startActivity(intent);
-    }
 
-    @Override
-    public void onDialogFunctionClick(DialogFragment dialog)
-    {
-        Intent intent = new Intent(this, BuildFunctionActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onDialogApplicationClick(DialogFragment dialog)
-    {
-        Intent intent = new Intent(this, BuildApplicationActivity.class);
-        startActivity(intent);
     }
 }
