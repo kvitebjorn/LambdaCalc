@@ -1,5 +1,8 @@
 package com.mycompany.lambdacalc;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,7 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ChooseExpDialogFragment.ChooseExpDialogListener
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,35 @@ public class MainActivity extends ActionBarActivity {
 
     public void buildExpression(View view)
     {
+        ChooseExpDialogFragment expChooser = new ChooseExpDialogFragment();
+        showChooseExpDialog();
+    }
 
+    public void showChooseExpDialog()
+    {
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new ChooseExpDialogFragment();
+        dialog.show(getSupportFragmentManager(), "ChooseExpDialogFragment");
+    }
+
+    @Override
+    public void onDialogNameClick(DialogFragment dialog)
+    {
+        Intent intent = new Intent(this, BuildNameActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogFunctionClick(DialogFragment dialog)
+    {
+        Intent intent = new Intent(this, BuildFunctionActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogApplicationClick(DialogFragment dialog)
+    {
+        Intent intent = new Intent(this, BuildApplicationActivity.class);
+        startActivity(intent);
     }
 }
