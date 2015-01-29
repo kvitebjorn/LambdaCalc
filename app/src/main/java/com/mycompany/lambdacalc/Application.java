@@ -32,7 +32,7 @@ public class Application implements Expression
     {
         return "(" + function.toString() + " " + argument.toString() + ")";
     }
-    
+
     @Override public Expression evaluate()
     {
         if(function instanceof Function)

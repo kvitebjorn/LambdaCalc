@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">LambdaCalc</string>
     <string name="action_settings">Settings</string>
-
+    <string name="build_button_send">Build Expression</string>
+    <string name="compute_button_send">Evaluate</string>
+    <string name="computation_id">Computation</string>
+    <string name="computation_empty">Select an expression to evaluate</string>
+    <string name="choose_exp">Choose a type of expression</string>
+    <string-array name="exp_array">
+        <item>Name</item>
+        <item>Function</item>
+        <item>Application</item>
+    </string-array>
 </resources>
