@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -26,18 +28,59 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         expressions = new ArrayList<>();
-        Name x = new Name("x");
-        Function X = new Function(x,x);
+        final Name x_ = new Name("x");
+        final Function X_ = new Function(x_,x_);
+        final Application Xx = new Application(X_,x_);
 
-        //provide an initial name x and its identity function
-        expressions.add(x);
-        expressions.add(X);
+        //provide an initial name x, its identity function, and an application of x to its identity
+        expressions.add(x_);
+        expressions.add(X_);
+        expressions.add(Xx);
+
+        //v) (((λf.λg.λx.(f (g x)) λs.(s s)) λa.λb.b) λt.λy.t)
+        final Name f = new Name("f");
+        final Name g = new Name("g");
+        final Name s = new Name("s");
+        final Name a = new Name("a");
+        final Name b = new Name("b");
+        final Name x = new Name("x");
+        final Name y = new Name("y");
+        final Name t = new Name("t");
+
+        final Application gx = new Application(g, x);   // (g x)
+        final Application fgx = new Application(f, gx); // f (g x)
+        final Application ss = new Application(s, s);   // (s s)
+
+        final Function X = new Function(x, fgx); // \x.(f (g x))
+        final Function G = new Function(g, X);   // \g.\x.(f (g x))
+        final Function F = new Function(f, G);   // \f.\g.\x.(f (g x))*
+
+        final Function S = new Function(s, ss); // \s.(s s)*
+        final Function B = new Function(b, b);  // \b.b
+        final Function A = new Function(a, B);  // \a.\b.b *
+
+        final Function Y = new Function(y, t);  // \y.x
+        final Function T = new Function(t, Y);  // \t.\y.t *
+
+        final Application fTOs = new Application(F, S);     // (\f.\g.\x.(f(g x)) \s.(s s))
+        final Application fsTOa = new Application(fTOs, A); // ((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b)
+        final Application last = new Application(fsTOa, T); // (((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b) \t.\y.t)
+        expressions.add(last);
 
         //array adapter for the list of expressions
         expAdapter = new ArrayAdapter<Expression>(this,
                android.R.layout.simple_list_item_1 , expressions);
-        ListView listView = (ListView) findViewById(R.id.expressions_list);
+        final ListView listView = (ListView) findViewById(R.id.expressions_list);
         listView.setAdapter(expAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                //update the evaluation text area
+                final TextView evaluationArea = (TextView) findViewById(R.id.evaluation_id);
+                evaluationArea.setText(expressions.get(position).evaluate().toString());
+            }
+        });
     }
 
 
@@ -73,9 +116,9 @@ public class MainActivity extends ActionBarActivity
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        EditText input = (EditText) v.findViewById(R.id.create_name);
-                        String name = input.getText().toString();
-                        Name newName = new Name(name);
+                        final EditText input = (EditText) v.findViewById(R.id.create_name);
+                        final String name = input.getText().toString();
+                        final Name newName = new Name(name);
                         expAdapter.add(newName);
                         dialog.cancel();
                     }

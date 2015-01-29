@@ -6,8 +6,6 @@
     <string name="name_button_send">+ x</string>
     <string name="function_button_send">+ λ</string>
     <string name="application_button_send">+ ()</string>
-    <string name="choose_exp">Choose a type of expression</string>
-    <string name="expressions_list">Expressions</string>
     <string name="evaluation_empty">Choose an expression to evaluate!</string>
 
     <string name="create_name">Enter a string:</string>
