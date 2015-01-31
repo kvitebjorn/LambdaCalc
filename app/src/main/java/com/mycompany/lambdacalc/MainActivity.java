@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -135,7 +136,54 @@ public class MainActivity extends ActionBarActivity
 
     public void buildFunction(View view)
     {
+        final ArrayList<Name> names = new ArrayList<>();
+        //fill with names
+        for(Expression e : expressions)
+            if(e instanceof Name)
+                names.add((Name) e);
 
+        final LayoutInflater inflater = getLayoutInflater();
+        final View v = inflater.inflate(R.layout.build_function_dialog, null);
+        final Spinner names_spinner = (Spinner) v.findViewById(R.id.names_spinner);
+        final Spinner exps_spinner = (Spinner) v.findViewById(R.id.exps_spinner);
+        final ArrayAdapter<Name> namesAdapter = new ArrayAdapter<Name>(this,
+                android.R.layout.simple_spinner_item, names);
+        namesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        names_spinner.setAdapter(namesAdapter);
+        expAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        exps_spinner.setAdapter(expAdapter);
+
+        new AlertDialog.Builder(this)
+                .setView(v)
+                .setTitle("λ<name>.<exp>")
+                .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Retrieve name and exp, make a new Function and add it to expressions
+                        final Spinner name_f = (Spinner) v.findViewById(R.id.names_spinner);
+                        final Spinner exp_f = (Spinner) v.findViewById(R.id.exps_spinner);
+                        final Name n = new Name(names.get(name_f.getSelectedItemPosition()).getName());
+                        final Expression e = expressions.get(exp_f.getSelectedItemPosition());
+                        final Expression exp;
+
+                        if (e instanceof Name)
+                            exp = new Name(((Name) e).getName());
+                        else if (e instanceof Function)
+                            exp = new Function(((Function) e).getName(), ((Function) e).getBody());
+                        else
+                            exp = new Application(((Application) e).getFunction(), ((Application) e).getArgument());
+
+                        Function f = new Function(n, exp);
+                        expAdapter.add(f);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
     public void buildApplication(View view)
