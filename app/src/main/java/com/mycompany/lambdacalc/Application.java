@@ -61,10 +61,11 @@ public class Application implements Expression
         if(function instanceof Function)
         {
             Function f = (Function) function;
+            betas = betas + "\n" + function.toString() + " " + argument.toString() + " ->";
             Function ff = new Function(f.getName(), f.getBody());
             ff.substitute(ff.getName(), argument);
             Expression newExpression = ff.getBody();
-            betas = betas + "\nβ :: " + newExpression.toString();
+            betas = betas + "\nβ :: " + newExpression.toString() + "\n";
             return newExpression.evaluate();
         }
         else if(function instanceof Name)
@@ -75,6 +76,7 @@ public class Application implements Expression
         }
         else
         {
+            betas = betas + "\n" + function.toString() + " " + argument.toString() + " =>";
             Expression newExpression = function.evaluate();
             Application newApplication = new Application(newExpression, argument);
             return newApplication.evaluate();
