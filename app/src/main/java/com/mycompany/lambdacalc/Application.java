@@ -9,13 +9,36 @@ public class Application implements Expression
 {
     // Function applications have the form <function expression><argument expression>
     // Function applications evaluate from left to right
-    Expression function;
-    Expression argument;
+    private Expression function;
+    private Expression argument;
+    private static String betas = "";
     
     public Application(final Expression f, final Expression a)
     {
-        function = f;
-        argument = a;
+        //defensively copy f and a
+        if(f instanceof Name)
+            function = new Name(((Name) f).getName());
+        else if(f instanceof Function)
+            function = new Function(((Function) f).getName(), ((Function) f).getBody());
+        else
+            function = new Application(((Application) f).getFunction(),((Application) f).getArgument());
+
+        if(a instanceof Name)
+            argument = new Name(((Name) a).getName());
+        else if(a instanceof Function)
+            argument = new Function(((Function) a).getName(), ((Function) a).getBody());
+        else
+            argument = new Application(((Application) a).getFunction(),((Application) a).getArgument());
+    }
+
+    public String getBetas()
+    {
+        return betas;
+    }
+
+    public void setBetas(String s)
+    {
+        betas = s;
     }
     
     public Expression getFunction()
@@ -38,9 +61,10 @@ public class Application implements Expression
         if(function instanceof Function)
         {
             Function f = (Function) function;
-            Function ff = new Function(f.name, f.body);
+            Function ff = new Function(f.getName(), f.getBody());
             ff.substitute(ff.getName(), argument);
             Expression newExpression = ff.getBody();
+            betas = betas + "\nβ :: " + newExpression.toString();
             return newExpression.evaluate();
         }
         else if(function instanceof Name)

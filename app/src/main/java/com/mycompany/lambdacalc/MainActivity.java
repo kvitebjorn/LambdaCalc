@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         expressions = new ArrayList<>();
+
         final Name x_ = new Name("x");
         final Function X_ = new Function(x_,x_);
         final Application Xx = new Application(X_,x_);
@@ -77,9 +78,20 @@ public class MainActivity extends ActionBarActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                //update the evaluation text area
                 final TextView evaluationArea = (TextView) findViewById(R.id.evaluation_id);
-                evaluationArea.setText(expressions.get(position).evaluate().toString());
+                evaluationArea.setText("");
+                if(expressions.get(position) instanceof Application)
+                {
+                    Application a = (Application) expressions.get(position);
+                    a.setBetas("");
+                    String evalString = a.evaluate().toString();
+                    String betaReductions = a.getBetas();
+                    evaluationArea.setText(betaReductions
+                            + "\n"
+                            + evalString);
+                }
+                else
+                    evaluationArea.setText(expressions.get(position).toString());
             }
         });
     }

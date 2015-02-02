@@ -7,14 +7,21 @@ package com.mycompany.lambdacalc;
 
 public class Function implements Expression
 {
-    Name name;
-    Expression body;
+    private Name name;
+    private Expression body;
     
     public Function(final Name n, final Expression b)
     {
         // A function has the form of \<name>.<body> where <body> is an expression
-        name = n; 
-        body = b;
+        // Defensively copy n and b
+        name = new Name(n.getName());
+
+        if(b instanceof Name)
+            body = new Name(((Name) b).getName());
+        else if(b instanceof Function)
+            body = new Function(((Function) b).getName(), ((Function) b).getBody());
+        else
+            body = new Application(((Application) b).getFunction(),((Application) b).getArgument());
     }
     
     public Name getName()

@@ -7,7 +7,7 @@ package com.mycompany.lambdacalc;
 
 public class Name implements Expression
 {
-    String name = "";
+    private String name = "";
     
     public Name(final String n)
     {
