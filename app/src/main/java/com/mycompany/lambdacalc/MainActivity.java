@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -119,16 +120,15 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void buildName(View view)
+    public void buildName(final View view)
     {
         final LayoutInflater inflater = getLayoutInflater();
         final View v = inflater.inflate(R.layout.build_name_dialog, null);
-        new AlertDialog.Builder(this)
+        final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(v)
                 .setTitle("Enter a string:")
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
+                    public void onClick(DialogInterface dialog, int id) {
                         final EditText input = (EditText) v.findViewById(R.id.create_name);
                         final String name = input.getText().toString();
                         final Name newName = new Name(name);
@@ -137,13 +137,13 @@ public class MainActivity extends ActionBarActivity
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
+                    public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                         dialog.cancel();
                     }
                 })
         .show();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     public void buildFunction(View view)

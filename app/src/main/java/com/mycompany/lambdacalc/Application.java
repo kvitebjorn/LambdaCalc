@@ -85,7 +85,7 @@ public class Application implements Expression
     
     @Override public Expression substitute(final Name id, final Expression exp)
     {
-        // avoid name-shadowing 
+        // avoid name-shadowing
         if(function instanceof Name || function instanceof Application)
             function = function.substitute(id, exp);
         if(argument instanceof Name || argument instanceof Application)

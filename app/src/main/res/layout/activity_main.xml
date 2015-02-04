@@ -9,23 +9,26 @@
         android:layout_height="0px"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="right">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name_button_send"
+            android:textAllCaps="false"
             android:onClick="buildName" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAllCaps="false"
             android:text="@string/function_button_send"
             android:onClick="buildFunction" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAllCaps="false"
             android:text="@string/application_button_send"
             android:onClick="buildApplication" />
 
