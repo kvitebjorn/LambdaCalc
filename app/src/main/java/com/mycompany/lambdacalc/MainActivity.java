@@ -83,16 +83,16 @@ public class MainActivity extends ActionBarActivity
                 evaluationArea.setText("");
                 if(expressions.get(position) instanceof Application)
                 {
-                    Application a = (Application) expressions.get(position);
+                    final Application a = (Application) expressions.get(position);
                     a.setBetas("");
-                    String evalString = a.evaluate().toString();
-                    String betaReductions = a.getBetas();
+                    final String evalString = a.evaluate().toString();
+                    final String betaReductions = a.getBetas();
                     evaluationArea.setText(betaReductions
                             + "\n"
                             + evalString);
                 }
                 else
-                    evaluationArea.setText(expressions.get(position).toString());
+                    evaluationArea.setText("\n" + expressions.get(position).toString());
             }
         });
     }
@@ -184,7 +184,7 @@ public class MainActivity extends ActionBarActivity
                         else
                             exp = new Application(((Application) e).getFunction(), ((Application) e).getArgument());
 
-                        Function f = new Function(n, exp);
+                        final Function f = new Function(n, exp);
                         expAdapter.add(f);
                         dialog.cancel();
                     }
@@ -234,7 +234,7 @@ public class MainActivity extends ActionBarActivity
                         else
                             exp2 = new Application(((Application) e2).getFunction(), ((Application) e2).getArgument());
 
-                        Application a = new Application(exp1, exp2);
+                        final Application a = new Application(exp1, exp2);
                         expAdapter.add(a);
                         dialog.cancel();
                     }
