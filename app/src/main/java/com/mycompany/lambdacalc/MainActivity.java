@@ -152,6 +152,7 @@ public class MainActivity extends ActionBarActivity
 
     public void buildName(final View view)
     {
+        //TODO: string validation
         final LayoutInflater inflater = getLayoutInflater();
         final View v = inflater.inflate(R.layout.build_name_dialog, null);
         final AlertDialog dialog = new AlertDialog.Builder(this)
