@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -95,6 +96,35 @@ public class MainActivity extends ActionBarActivity
                     evaluationArea.setText("\n" + expressions.get(position).toString());
             }
         });
+
+        registerForContextMenu(listView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId()==R.id.expressions_list)
+        {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            menu.setHeaderTitle(expressions.get(info.position).toString());
+            menu.add(R.string.contextMenu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        final int menuItemIndex = item.getItemId();
+
+        if(menuItemIndex == 0)
+        {
+            expAdapter.remove(expressions.get(info.position));
+            final TextView evaluationArea = (TextView) findViewById(R.id.evaluation_id);
+            evaluationArea.setText("");
+        }
+
+        return true;
     }
 
 

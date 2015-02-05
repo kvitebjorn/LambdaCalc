@@ -42,7 +42,8 @@
         android:layout_weight="5"
         android:choiceMode="singleChoice"
         android:listSelector="#666666"
-        android:transcriptMode="alwaysScroll"/>
+        android:transcriptMode="alwaysScroll"
+        android:longClickable="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
