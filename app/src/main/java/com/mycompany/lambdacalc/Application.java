@@ -13,7 +13,7 @@ public class Application implements Expression
     private Expression argument;
     private static String betas = "";
     private static int depth = 0;
-    final private int depthOnEvals = 500;
+    final private int depthOnEvals = 250;
     
     public Application(final Expression f, final Expression a)
     {
