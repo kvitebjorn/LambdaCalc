@@ -136,18 +136,39 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.action_clear:
+                new AlertDialog.Builder(this)
+                        .setTitle("Clear")
+                        .setMessage("This will clear all expressions. Are you sure?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                expAdapter.clear();
+                                final TextView evaluationArea = (TextView) findViewById(R.id.evaluation_id);
+                                evaluationArea.setText("");
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+                return true;
+            case R.id.action_tutorial:
+                openTutorial();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void buildName(final View view)
@@ -303,5 +324,10 @@ public class MainActivity extends ActionBarActivity
                     }
                 })
                 .show();
+    }
+
+    public void openTutorial()
+    {
+        //TODO
     }
 }
