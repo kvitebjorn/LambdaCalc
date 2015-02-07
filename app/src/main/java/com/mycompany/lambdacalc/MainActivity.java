@@ -32,14 +32,88 @@ public class MainActivity extends ActionBarActivity
 
         expressions = new ArrayList<>();
 
-        final Name x_ = new Name("x");
-        final Function X_ = new Function(x_,x_);
-        final Application Xx = new Application(X_,x_);
+        //Test problems taken from:
+        //AN INTRODUCTION TO FUNCTIONAL PROGRAMMING THROUGH LAMBDA CALCULUS
+        //By Greg Michaelson
+        //Chapter 2 Exercise 2
 
-        //provide an initial name x, its identity function, and an application of x to its identity
-        expressions.add(x_);
-        expressions.add(X_);
-        expressions.add(Xx);
+        //i) ((λc.λd.(d c) λe.λh.e) λi.i)
+        final Name c = new Name("c");
+        final Name d = new Name("d");
+        final Name e = new Name("e");
+        final Name h = new Name("h");
+        final Name i = new Name("i");
+
+        final Function I = new Function(i,i);
+        final Function H = new Function(h,e);
+        final Function E = new Function(e,H);
+        final Application dc = new Application(d,c);
+        final Function D = new Function(d,dc);
+        final Function C = new Function(c,D);
+        final Application CE = new Application(C,E);
+        final Application problem1 = new Application(CE,I);
+        expressions.add(problem1);
+
+        //ii) (((λj.λk.λl.((j k) l) λm.λn.(m n)) λo.o) λp.p)
+        final Name j = new Name("j");
+        final Name k = new Name("k");
+        final Name l = new Name("l");
+        final Name m = new Name("m");
+        final Name n = new Name("n");
+        final Name o = new Name("o");
+        final Name p = new Name("p");
+
+        final Function P = new Function(p,p);
+        final Function O = new Function(o,o);
+        final Application mn = new Application(m,n);
+        final Function N = new Function(n,mn);
+        final Function M = new Function(m,N);
+        final Application jk = new Application(j,k);
+        final Application jkl = new Application(jk, l);
+        final Function L = new Function(l, jkl);
+        final Function K = new Function(k,L);
+        final Function J = new Function(j,K);
+        final Application JM = new Application(J,M);
+        final Application JMO = new Application(JM,O);
+        final Application problem2 = new Application(JMO,P);
+        expressions.add(problem2);
+
+        //iii) (λq.((λr.λu.(u r) q) q) λv.(v v)) ... supposed to be infinite... and it is ^^
+        final Name q = new Name("q");
+        final Name r = new Name("r");
+        final Name u = new Name("u");
+        final Name v = new Name("v");
+
+        final Application vv = new Application(v,v);
+        final Function V = new Function(v,vv);
+        final Application ur = new Application(u,r);
+        final Function U = new Function(u,ur);
+        final Function R_ = new Function(r,U);
+        final Application Rq = new Application(R_,q);
+        final Application Rqq = new Application(Rq,q);
+        final Function Q = new Function(q,Rqq);
+        final Application problem3 = new Application(Q,V);
+        expressions.add(problem3);
+
+        //iv) ((λw.λz.(w z) (λx.x λa.λb.a)) λk.k)
+        final Name w = new Name("w");
+        final Name z = new Name("z");
+        final Name x2 = new Name("x");
+        final Name a2 = new Name("a");
+        final Name b2 = new Name("b");
+        final Name k2 = new Name("k");
+
+        final Function K2 = new Function(k2,k2);
+        final Function B2 = new Function(b2,a2);
+        final Function A2 = new Function(a2,B2);
+        final Function X2 = new Function(x2,x2);
+        final Application XA = new Application(X2, A2);
+        final Application WZ = new Application(w,z);
+        final Function Z = new Function(z,WZ);
+        final Function W = new Function(w,Z);
+        final Application WXA = new Application(W,XA);
+        final Application problem4 = new Application(WXA,K2);
+        expressions.add(problem4);
 
         //v) (((λf.λg.λx.(f (g x)) λs.(s s)) λa.λb.b) λt.λy.t)
         final Name f = new Name("f");
@@ -68,8 +142,8 @@ public class MainActivity extends ActionBarActivity
 
         final Application fTOs = new Application(F, S);     // (\f.\g.\x.(f(g x)) \s.(s s))
         final Application fsTOa = new Application(fTOs, A); // ((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b)
-        final Application last = new Application(fsTOa, T); // (((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b) \t.\y.t)
-        expressions.add(last);
+        final Application problem5 = new Application(fsTOa, T); // (((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b) \t.\y.t)
+        expressions.add(problem5);
 
         //array adapter for the list of expressions
         expAdapter = new ArrayAdapter<Expression>(this,
@@ -86,11 +160,21 @@ public class MainActivity extends ActionBarActivity
                 {
                     final Application a = (Application) expressions.get(position);
                     a.setBetas("");
-                    final String evalString = a.evaluate().toString();
-                    final String betaReductions = a.getBetas();
-                    evaluationArea.setText(betaReductions
-                            + "\n"
-                            + evalString);
+                    final Expression evaluation = a.evaluate();
+                    if (evaluation != null)
+                    {
+                        final String evalString = evaluation.toString();
+                        final String betaReductions = a.getBetas();
+                        evaluationArea.setText(betaReductions
+                                + "\n"
+                                + evalString);
+                        a.setDepth(0);
+                    }
+                    else
+                    {
+                        evaluationArea.setText("\nThis expression is infinitely recursive!");
+                        a.setDepth(0);
+                    }
                 }
                 else
                     evaluationArea.setText("\n" + expressions.get(position).toString());

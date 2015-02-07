@@ -12,6 +12,8 @@ public class Application implements Expression
     private Expression function;
     private Expression argument;
     private static String betas = "";
+    private static int depth = 0;
+    final private int depthOnEvals = 500;
     
     public Application(final Expression f, final Expression a)
     {
@@ -40,6 +42,10 @@ public class Application implements Expression
     {
         betas = s;
     }
+
+    public int getDepth() { return depth; }
+
+    public void setDepth(int d) { depth = d; }
     
     public Expression getFunction()
     {
@@ -66,17 +72,29 @@ public class Application implements Expression
             ff.substitute(ff.getName(), argument);
             Expression newExpression = ff.getBody();
             betas = betas + "\nβ :: " + newExpression.toString() + "\n";
+            if(depth > depthOnEvals)
+                return null;
+            else
+                depth++;
             return newExpression.evaluate();
         }
         else if(function instanceof Name)
         {
             Expression newArgument = argument.evaluate();
             Application newApplication = new Application(function, newArgument);
+            if(depth > depthOnEvals)
+                return null;
+            else
+                depth++;
             return newApplication;
         }
         else
         {
             betas = betas + "\n" + function.toString() + " " + argument.toString() + " =>";
+            if(depth > depthOnEvals)
+                return null;
+            else
+                depth++;
             Expression newExpression = function.evaluate();
             Application newApplication = new Application(newExpression, argument);
             return newApplication.evaluate();
