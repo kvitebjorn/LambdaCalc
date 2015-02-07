@@ -152,19 +152,43 @@ public class MainActivity extends ActionBarActivity
 
     public void buildName(final View view)
     {
-        //TODO: string validation
         final LayoutInflater inflater = getLayoutInflater();
         final View v = inflater.inflate(R.layout.build_name_dialog, null);
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(v)
-                .setTitle("Enter a string:")
+                .setTitle("Define a name:")
+                .setMessage("Only alphanumeric characters allowed")
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Boolean hasNonCharOrDigit = false;
                         final EditText input = (EditText) v.findViewById(R.id.create_name);
                         final String name = input.getText().toString();
-                        final Name newName = new Name(name);
-                        expAdapter.add(newName);
-                        dialog.cancel();
+
+                        for (int i = 0; i < name.length(); i++)
+                            if (!Character.isLetterOrDigit(name.toCharArray()[i]))
+                                hasNonCharOrDigit = true;
+
+                        if (!hasNonCharOrDigit && !name.equals("")) {
+                            final Name newName = new Name(name);
+                            expAdapter.add(newName);
+                            dialog.cancel();
+                        }
+                        else
+                        {
+                            dialog.cancel();
+                            new AlertDialog.Builder(view.getContext())
+                                    .setMessage("ERROR: Only alphanumeric characters allowed!")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which)
+                                        {
+                                            dialog.cancel();
+                                            buildName(view);
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -198,7 +222,8 @@ public class MainActivity extends ActionBarActivity
 
         new AlertDialog.Builder(this)
                 .setView(v)
-                .setTitle("λ<name>.<expression>")
+                .setTitle("Define a function:")
+                .setMessage("λ<name>.<expression>")
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //Retrieve name and exp, make a new Function and add it to expressions
@@ -241,7 +266,8 @@ public class MainActivity extends ActionBarActivity
 
         new AlertDialog.Builder(this)
                 .setView(v)
-                .setTitle("<expression><expression>")
+                .setTitle("Define an application:")
+                .setMessage("<expression><expression>")
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         final Spinner exp1s = (Spinner) v.findViewById(R.id.exps1_spinner);
