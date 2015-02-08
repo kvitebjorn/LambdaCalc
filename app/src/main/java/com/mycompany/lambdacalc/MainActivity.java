@@ -1,7 +1,13 @@
 package com.mycompany.lambdacalc;
 
+/**
+ *
+ * @author Kyle Harrington <gapthrosnir at gmail.com>
+ */
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -412,6 +418,7 @@ public class MainActivity extends ActionBarActivity
 
     public void openTutorial()
     {
-        //TODO
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivity(intent);
     }
 }

@@ -7,12 +7,11 @@
     <string name="name_button_send">x</string>
     <string name="function_button_send">λ</string>
     <string name="application_button_send">( )</string>
-    <string name="evaluation_empty">\nChoose an expression to evaluate!</string>
-
+    <string name="evaluation_empty">\nChoose an expression to evaluate or build your own!</string>
     <string name="create_name">Enter a string:</string>
     <string name="button_send">Create</string>
     <string name="cancel">Cancel</string>
-
     <string name="contextMenu">DELETE</string>
+    <string name="title_activity_tutorial">Tutorial</string>
 
 </resources>
