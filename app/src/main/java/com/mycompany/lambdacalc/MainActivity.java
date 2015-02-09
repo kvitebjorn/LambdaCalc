@@ -337,12 +337,21 @@ public class MainActivity extends ActionBarActivity
                 .setMessage("λ<name>.<expression>")
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        if (names.isEmpty() || expAdapter.isEmpty())
+                        {
+                            dialog.cancel();
+                            return;
+                        }
+
                         //Retrieve name and exp, make a new Function and add it to expressions
                         final Spinner name_f = (Spinner) v.findViewById(R.id.names_spinner);
                         final Spinner exp_f = (Spinner) v.findViewById(R.id.exps_spinner);
                         final Name n = new Name(names.get(name_f.getSelectedItemPosition()).getName());
                         final Expression e = expressions.get(exp_f.getSelectedItemPosition());
                         final Expression exp;
+
+                        if (n == null || e == null)
+                            dialog.cancel();
 
                         if (e instanceof Name)
                             exp = new Name(((Name) e).getName());
@@ -381,6 +390,12 @@ public class MainActivity extends ActionBarActivity
                 .setMessage("<expression><expression>")
                 .setPositiveButton(R.string.button_send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        if (expAdapter.isEmpty())
+                        {
+                            dialog.cancel();
+                            return;
+                        }
+
                         final Spinner exp1s = (Spinner) v.findViewById(R.id.exps1_spinner);
                         final Spinner exp2s = (Spinner) v.findViewById(R.id.exps2_spinner);
                         final Expression e1 = expressions.get(exp1s.getSelectedItemPosition());
