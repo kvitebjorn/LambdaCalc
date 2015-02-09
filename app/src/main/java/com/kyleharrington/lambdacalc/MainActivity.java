@@ -150,6 +150,8 @@ public class MainActivity extends ActionBarActivity
         final Application fsTOa = new Application(fTOs, A); // ((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b)
         final Application problem5 = new Application(fsTOa, T); // (((\f.\g.\x.(f(g x)) \s.(s s)) \a.\b.b) \t.\y.t)
         expressions.add(problem5);
+        expressions.add(x);
+        expressions.add(X2);
 
         //array adapter for the list of expressions
         expAdapter = new ArrayAdapter<Expression>(this,
