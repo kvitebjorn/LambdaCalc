@@ -1,4 +1,4 @@
-package com.mycompany.lambdacalc;
+package com.kyleharrington.lambdacalc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

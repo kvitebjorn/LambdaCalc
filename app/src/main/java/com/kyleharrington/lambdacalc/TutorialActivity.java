@@ -1,12 +1,8 @@
-package com.mycompany.lambdacalc;
+package com.kyleharrington.lambdacalc;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 
 public class TutorialActivity extends ActionBarActivity

@@ -1,4 +1,4 @@
-package com.mycompany.lambdacalc;
+package com.kyleharrington.lambdacalc;
 
 /**
  *
